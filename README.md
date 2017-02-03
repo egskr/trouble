@@ -17,16 +17,34 @@
 
 
 
-##What java version is installed?
+###What java version is installed?
 <b>java -version</b>
     java version "1.7.0_79"
     
-##How was it installed and configured?
+###How was it installed and configured?
 [vagrant@mntlab ~]$ <b>rpm -qa | grep java</b><br>[vagrant@mntlab ~]$ <b>yum list installed | grep java</b><br>[vagrant@mntlab ~]$ <br>Java was copied manually from archive
 
-##Where are log files of tomcat and httpd?
+###Where are log files of tomcat and httpd?
 Httpd logs located in /var/log/httpd
 Tomcat logs were located in /opt/apache/tomcat/current/logs/ but i changed it location to /var/log/tomcat
+
+###Where is JAVA_HOME and what is it?
+JAVA_HOME is variable which used by Java applications and shows directory where java installed
+
+###Where is tomcat installed?
+/opt/apache/tomcat
+
+###What is CATALINA_HOME?
+CATALINA_HOME is the folder where Tomcat is installed 
+
+###What users run httpd and tomcat processes? How is it configured?
+Parent process starts from root, children processes start from user, defined in config httpd.conf.<br>In our casi this is:<br>User apache<br>Group apache<br>[vagrant@mntlab 7.0.62]$ ps aux | grep httpd<br>root      2832  0.0  0.7 173460  3832 ?        Ss   Feb02   0:01 /usr/sbin/httpd<br>apache    2834  0.0  0.6 249372  3328 ?        Sl   Feb02   0:03 /usr/sbin/httpd<br>apache    2835  0.0  0.6 249372  3300 ?        Sl   Feb02   0:03 /usr/sbin/httpd<br>apache    2836  0.0  0.6 249372  3300 ?        Sl   Feb02   0:03 /usr/sbin/httpd<br>apache    2838  0.0  0.5 249372  2600 ?        Sl   Feb02   0:03 /usr/sbin/httpd<br>In tomcat process works from user tomcat<br>It defines in script:<br>su - tomcat -c "sh /opt/apache/tomcat//current/bin/shutdown.sh" > /dev/null from /etc/init.d/tomcat script
+
+###What configuration files are used to make components work with each other?
+httpd.conf, vhost.conf, workers.properties
+
+###What does it mean: “load average: 1.18, 0.95, 0.83”?
+These are average cpu load values for 1,5,15 minutes.<br>It depends on total quantity of processor cores.<br>Load in % =load value / (cpu quantity * cores quantity) * 100% <br>For example, we have 2 cpu with 2 cores for every cpu. Load in % = 1.18/(2*2) * 100%=30%
 
 
 
